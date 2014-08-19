@@ -17,10 +17,13 @@ namespace cards {
 
 			Console.WriteLine ("Sorted deck");
 			CardManager.display (list_of_cards);
+
+			Tester tester = new Tester ();
+			tester.run_tests ();
 		}
 	}
 
-	class CardManager {
+	public class CardManager {
 		public static Dictionary<string, int> make_suite_dict () {
 			Dictionary<string, int> suite_dict = new Dictionary<string, int>();
 			suite_dict.Add ("heart", 1);
@@ -89,7 +92,7 @@ namespace cards {
 		}
 	}
 
-	class Card {
+	public class Card {
 		public string suite { get; set; }
 		public string face { get; set; }
 

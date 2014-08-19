@@ -4,29 +4,19 @@ using System.Collections.Generic;
 namespace cards {
 	class MainClass {
 		public static void Main (string[] args) {
-			List<Card> list_of_cards = new List<Card> ();
 			Dictionary<string, int> suite_dict = CardManager.make_suite_dict ();
 			Dictionary<string, int> face_dict = CardManager.make_face_dict ();
-
-			foreach (KeyValuePair<string, int> suite in suite_dict) {
-				foreach (KeyValuePair<string, int> face in face_dict) {
-					list_of_cards.Add (new Card(suite.Key, face.Key));
-				}
-			}
+			List<Card> list_of_cards = CardManager.make_deck (suite_dict, face_dict);
 
 			list_of_cards = CardManager.shuffle (list_of_cards);
 
 			Console.WriteLine ("Shuffled deck");
-			foreach (Card card in list_of_cards) {
-				Console.WriteLine ("Card: suite - " + card.suite + "... face - " + card.face);
-			}
+			CardManager.display (list_of_cards);
 
 			list_of_cards = CardManager.sort (list_of_cards, suite_dict, face_dict);
 
 			Console.WriteLine ("Sorted deck");
-			foreach (Card card in list_of_cards) {
-				Console.WriteLine ("Card: suite - " + card.suite + "... face - " + card.face);
-			}
+			CardManager.display (list_of_cards);
 		}
 	}
 
@@ -56,6 +46,22 @@ namespace cards {
 			face_dict.Add ("Queen", 12);
 			face_dict.Add ("King", 13);
 			return face_dict;
+		}
+
+		public static List<Card> make_deck (Dictionary<string,int> suite_dict, Dictionary<string, int> face_dict) {
+			List<Card> list_of_cards = new List<Card> ();
+			foreach (KeyValuePair<string, int> suite in suite_dict) {
+				foreach (KeyValuePair<string, int> face in face_dict) {
+					list_of_cards.Add (new Card(suite.Key, face.Key));
+				}
+			}
+			return list_of_cards;
+		}
+
+		public static void display (List<Card> cards) {
+			foreach (Card card in cards) {
+				Console.WriteLine ("Card -- suite: " + card.suite + ", face: " + card.face);
+			}
 		}
 
 		public static List<Card> sort (List<Card> cards, Dictionary<string,int> suite_dict, Dictionary<string, int> face_dict) {

@@ -1,3 +1,18 @@
+/*
+ * This file contains all the functionality for shuffling and sorting a deck
+ * of cards.
+ * 
+ * A deck is defined as a List of Card objects, and can be generated with the 
+ * CardManager.make_deck method.
+ * A deck can be passed into the CardManager.shuffle method alone, but 
+ * to sort it you need to also pass in the suite_dict and the face dict
+ * so that it knows which cards are higher value than others. These
+ * Dictionaries can be generated with Cardmanager.make_suite_dict and 
+ * make_face_dict methods.
+ * 
+ * Use CardManager.display method to view a deck.
+ */
+
 using System;
 using System.Collections.Generic;
 

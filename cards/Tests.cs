@@ -1,3 +1,10 @@
+/*
+ * These are the tests for the CardManager class, which 
+ * is responcible for sorting and shuffling a deck.
+ * 
+ * Usage: run Tester.run_tests() on a Tester instance.
+ */
+
 using System;
 using System.Collections.Generic;
 

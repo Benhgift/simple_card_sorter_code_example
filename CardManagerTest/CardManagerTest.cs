@@ -9,15 +9,13 @@ using CardManager;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace CardManagerTest
-{
+namespace CardManagerTest {
+
 	[TestFixture]
-	public class CardManagerTest
-	{
+	public class CardManagerTest {
 		CardManager.CardManager cardManager;
 			
-		public CardManagerTest ()
-		{
+		public CardManagerTest () {
 			cardManager = new CardManager.CardManager ();
 		}
 

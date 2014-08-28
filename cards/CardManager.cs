@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 
 namespace CardManager {
+
 	class MainClass {
 		public static void Main (string[] args) {
 			CardManager cardManager = new CardManager ();

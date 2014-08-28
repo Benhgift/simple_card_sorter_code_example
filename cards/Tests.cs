@@ -10,19 +10,16 @@ using System.Collections.Generic;
 
 namespace Cards {
 	public class Tester {
-		
-		Dictionary<string, int> suiteDict;
-		Dictionary<string, int> faceDict;
+		CardManager cardManager;
 
 		public Tester () {
-			suiteDict = CardManager.MakeSuiteDict ();
-			faceDict = CardManager.MakeFaceDict ();
+			cardManager = new CardManager ();
 		}
 
 		public void RunTests() {
 			Console.WriteLine ("Running tests");
 			try{
-				List<Card> cards = TestMakeDeck ();
+				List<Card> cards = cardManager.deck;
 				if (cards == null)
 					throw new Exception();
 				cards = TestShuffle (cards);
@@ -42,9 +39,7 @@ namespace Cards {
 		public List<Card> TestMakeDeck() {
 			try {
 				Console.WriteLine ("Testing deck creation");
-				Dictionary<string, int> suiteDict = CardManager.MakeSuiteDict ();
-				Dictionary<string, int> faceDict = CardManager.MakeFaceDict ();
-				List<Card> listOfCards = CardManager.MakeDeck (suiteDict, faceDict);
+				List<Card> listOfCards = cardManager.MakeDeck ();
 				if (listOfCards.Count < 10)
 					throw new Exception();
 				return listOfCards;
@@ -57,7 +52,7 @@ namespace Cards {
 		public List<Card> TestShuffle(List<Card> cards) {
 			Console.WriteLine ("Testing deck shuffling");
 			try {
-				return CardManager.Shuffle(cards);
+				return cardManager.Shuffle();
 			} catch {
 				Console.WriteLine ("Bad deck shuffling");
 				return null;
@@ -67,8 +62,8 @@ namespace Cards {
 		public List<Card> TestSort(List<Card> cards) {
 			try {
 				Console.WriteLine ("Testing deck sorting");
-				cards = CardManager.Sort(cards, suiteDict, faceDict);
-				if (cards[0].CompareTo(cards[10], suiteDict, faceDict) > 0)
+				cards = cardManager.Sort();
+				if (cards[0].CompareTo(cards[10]) > 0)
 					throw new Exception();
 				return cards;
 

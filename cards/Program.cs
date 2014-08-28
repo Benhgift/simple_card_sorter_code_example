@@ -19,19 +19,15 @@ using System.Collections.Generic;
 namespace Cards {
 	class MainClass {
 		public static void Main (string[] args) {
-			Dictionary<string, int> suiteDict = CardManager.MakeSuiteDict ();
-			Dictionary<string, int> faceDict = CardManager.MakeFaceDict ();
-			List<Card> ListOfCards = CardManager.MakeDeck (suiteDict, faceDict);
+			CardManager cardManager = new CardManager ();
 
-			ListOfCards = CardManager.Shuffle (ListOfCards);
-
+			cardManager.Shuffle ();
 			Console.WriteLine ("Shuffled deck");
-			CardManager.Display (ListOfCards);
+			cardManager.Display ();
 
-			ListOfCards = CardManager.Sort (ListOfCards, suiteDict, faceDict);
-
+			cardManager.Sort ();
 			Console.WriteLine ("Sorted deck");
-			CardManager.Display (ListOfCards);
+			cardManager.Display ();
 
 			Tester tester = new Tester ();
 			tester.RunTests ();
@@ -39,7 +35,17 @@ namespace Cards {
 	}
 
 	public class CardManager {
-		public static Dictionary<string, int> MakeSuiteDict () {
+		public List<Card> deck { get; set; }
+		public Dictionary<string, int> suiteDict { get; set; }
+		public Dictionary<string, int> faceDict { get; set; }
+
+		public CardManager() {
+			suiteDict = MakeSuiteDict ();
+			faceDict = MakeFaceDict ();
+			deck = MakeDeck ();	
+		}
+
+		public Dictionary<string, int> MakeSuiteDict () {
 			Dictionary<string, int> suiteDict = new Dictionary<string, int>();
 			suiteDict.Add ("heart", 1);
 			suiteDict.Add ("diamond", 2);
@@ -48,7 +54,7 @@ namespace Cards {
 			return suiteDict;
 		}
 
-		public static Dictionary<string, int> MakeFaceDict () {
+		public Dictionary<string, int> MakeFaceDict () {
 			Dictionary<string, int> faceDict = new Dictionary<string, int>();
 			faceDict.Add ("ace", 1);
 			faceDict.Add ("2", 2);
@@ -66,31 +72,32 @@ namespace Cards {
 			return faceDict;
 		}
 
-		public static List<Card> MakeDeck (Dictionary<string,int> suiteDict, Dictionary<string, int> faceDict) {
-			List<Card> list_of_cards = new List<Card> ();
+		public List<Card> MakeDeck () {
+			List<Card> listOfCards = new List<Card> ();
 			foreach (KeyValuePair<string, int> suite in suiteDict) {
 				foreach (KeyValuePair<string, int> face in faceDict) {
-					list_of_cards.Add (new Card(suite.Key, face.Key));
+					listOfCards.Add (new Card(suite.Key, face.Key, suiteDict, faceDict));
 				}
 			}
-			return list_of_cards;
+			return listOfCards;
 		}
 
-		public static void Display (List<Card> cards) {
-			foreach (Card card in cards) {
+		public void Display () {
+			foreach (Card card in deck) {
 				Console.WriteLine ("Card -- suite: " + card.suite + ", face: " + card.face);
 			}
 		}
 
-		public static List<Card> Sort (List<Card> cards, Dictionary<string,int> suiteDict, Dictionary<string, int> faceDict) {
-			cards.Sort(delegate(Card x, Card y) {
-				return x.CompareTo(y, suiteDict, faceDict);
+		public List<Card> Sort () {
+			deck.Sort(delegate(Card x, Card y) {
+				return x.CompareTo(y);
 			});
-			return cards;
+			return deck;
 		}
 
-		public static List<Card> Shuffle (List<Card> cards) {
-			return CardManager.Shuffler (cards);
+		public List<Card> Shuffle () {
+			deck = CardManager.Shuffler (deck);
+			return deck;
 		}
 
 		static List<T> Shuffler<T>(List<T> list) {  
@@ -110,13 +117,17 @@ namespace Cards {
 	public class Card {
 		public string suite { get; set; }
 		public string face { get; set; }
+		public Dictionary<string, int> suiteDict { get; set; }
+		public Dictionary<string, int> faceDict { get; set; }
 
-		public Card(string pSuite, string pFace) {
+		public Card(string pSuite, string pFace, Dictionary<string, int> pSuiteDict, Dictionary<string, int> pFaceDict) {
 			suite = pSuite;
 			face = pFace;
+			suiteDict = pSuiteDict;
+			faceDict = pFaceDict;
 		}
 
-		public int CompareTo(Card otherCard, Dictionary<string,int> suiteDict, Dictionary<string, int> faceDict) {
+		public int CompareTo(Card otherCard) {
 			int ourSuite = suiteDict [this.suite];
 			int theirSuite = suiteDict [otherCard.suite];
 			int theirFace = faceDict [this.face];

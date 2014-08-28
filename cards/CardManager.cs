@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Cards {
+namespace CardManager {
 	class MainClass {
 		public static void Main (string[] args) {
 			CardManager cardManager = new CardManager ();
@@ -28,9 +28,6 @@ namespace Cards {
 			cardManager.Sort ();
 			Console.WriteLine ("Sorted deck");
 			cardManager.Display ();
-
-			Tester tester = new Tester ();
-			tester.RunTests ();
 		}
 	}
 

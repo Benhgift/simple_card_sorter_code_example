@@ -1,3 +1,9 @@
+/*
+ * These are the tests for the basic functionality of 
+ * the program. The functionality is in the CardManager
+ * class, so that's what we test. 
+ */
+
 using System;
 using CardManager;
 using NUnit.Framework;

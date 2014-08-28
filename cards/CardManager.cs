@@ -16,10 +16,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace CardManager {
-
-	class MainClass {
-		public static void Main (string[] args) {
+namespace CardManager 
+{
+	class MainClass 
+	{
+		public static void Main (string[] args) 
+		{
 			CardManager cardManager = new CardManager ();
 
 			cardManager.Shuffle ();
@@ -32,18 +34,21 @@ namespace CardManager {
 		}
 	}
 
-	public class CardManager {
+	public class CardManager 
+	{
 		public List<Card> deck { get; set; }
 		public Dictionary<string, int> suiteDict { get; set; }
 		public Dictionary<string, int> faceDict { get; set; }
 
-		public CardManager() {
+		public CardManager() 
+		{
 			suiteDict = MakeSuiteDict ();
 			faceDict = MakeFaceDict ();
 			deck = MakeDeck ();	
 		}
 
-		public Dictionary<string, int> MakeSuiteDict () {
+		public Dictionary<string, int> MakeSuiteDict () 
+		{
 			Dictionary<string, int> suiteDict = new Dictionary<string, int>();
 			suiteDict.Add ("heart", 1);
 			suiteDict.Add ("diamond", 2);
@@ -52,7 +57,8 @@ namespace CardManager {
 			return suiteDict;
 		}
 
-		public Dictionary<string, int> MakeFaceDict () {
+		public Dictionary<string, int> MakeFaceDict () 
+		{
 			Dictionary<string, int> faceDict = new Dictionary<string, int>();
 			faceDict.Add ("ace", 1);
 			faceDict.Add ("2", 2);
@@ -70,38 +76,48 @@ namespace CardManager {
 			return faceDict;
 		}
 
-		public List<Card> MakeDeck () {
+		public List<Card> MakeDeck () 
+		{
 			List<Card> listOfCards = new List<Card> ();
-			foreach (KeyValuePair<string, int> suite in suiteDict) {
-				foreach (KeyValuePair<string, int> face in faceDict) {
+			foreach (KeyValuePair<string, int> suite in suiteDict)
+			{
+				foreach (KeyValuePair<string, int> face in faceDict) 
+				{
 					listOfCards.Add (new Card(suite.Key, face.Key, suiteDict, faceDict));
 				}
 			}
 			return listOfCards;
 		}
 
-		public void Display () {
-			foreach (Card card in deck) {
+		public void Display () 
+		{
+			foreach (Card card in deck) 
+			{
 				Console.WriteLine ("Card -- suite: " + card.suite + ", face: " + card.face);
 			}
 		}
 
-		public List<Card> Sort () {
-			deck.Sort(delegate(Card x, Card y) {
+		public List<Card> Sort () 
+		{
+			deck.Sort(delegate(Card x, Card y) 
+			{
 				return x.CompareTo(y);
 			});
 			return deck;
 		}
 
-		public List<Card> Shuffle () {
+		public List<Card> Shuffle () 
+		{
 			deck = CardManager.Shuffler (deck);
 			return deck;
 		}
 
-		static List<T> Shuffler<T>(List<T> list) {  
+		static List<T> Shuffler<T>(List<T> list) 
+		{
 			Random rng = new Random();  
 			int n = list.Count;  
-			while (n > 1) {  
+			while (n > 1) 
+			{
 				n--;  
 				int k = rng.Next(n + 1);  
 				T value = list[k];  
@@ -112,20 +128,23 @@ namespace CardManager {
 		}
 	}
 
-	public class Card {
+	public class Card 
+	{
 		public string suite { get; set; }
 		public string face { get; set; }
 		public Dictionary<string, int> suiteDict { get; set; }
 		public Dictionary<string, int> faceDict { get; set; }
 
-		public Card(string pSuite, string pFace, Dictionary<string, int> pSuiteDict, Dictionary<string, int> pFaceDict) {
+		public Card(string pSuite, string pFace, Dictionary<string, int> pSuiteDict, Dictionary<string, int> pFaceDict) 
+		{
 			suite = pSuite;
 			face = pFace;
 			suiteDict = pSuiteDict;
 			faceDict = pFaceDict;
 		}
 
-		public int CompareTo(Card otherCard) {
+		public int CompareTo(Card otherCard)
+		{
 			int ourSuite = suiteDict [this.suite];
 			int theirSuite = suiteDict [otherCard.suite];
 			int theirFace = faceDict [this.face];
@@ -135,7 +154,8 @@ namespace CardManager {
 				return -1;
 			else if (theirSuite < ourSuite)
 				return 1;
-			else {
+			else 
+			{
 				if (theirFace > ourFace)
 					return 1;
 				else if (theirFace < ourFace)

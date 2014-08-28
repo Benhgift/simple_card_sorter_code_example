@@ -16,84 +16,84 @@
 using System;
 using System.Collections.Generic;
 
-namespace cards {
+namespace Cards {
 	class MainClass {
 		public static void Main (string[] args) {
-			Dictionary<string, int> suite_dict = CardManager.make_suite_dict ();
-			Dictionary<string, int> face_dict = CardManager.make_face_dict ();
-			List<Card> list_of_cards = CardManager.make_deck (suite_dict, face_dict);
+			Dictionary<string, int> suiteDict = CardManager.MakeSuiteDict ();
+			Dictionary<string, int> faceDict = CardManager.MakeFaceDict ();
+			List<Card> ListOfCards = CardManager.MakeDeck (suiteDict, faceDict);
 
-			list_of_cards = CardManager.shuffle (list_of_cards);
+			ListOfCards = CardManager.Shuffle (ListOfCards);
 
 			Console.WriteLine ("Shuffled deck");
-			CardManager.display (list_of_cards);
+			CardManager.Display (ListOfCards);
 
-			list_of_cards = CardManager.sort (list_of_cards, suite_dict, face_dict);
+			ListOfCards = CardManager.Sort (ListOfCards, suiteDict, faceDict);
 
 			Console.WriteLine ("Sorted deck");
-			CardManager.display (list_of_cards);
+			CardManager.Display (ListOfCards);
 
 			Tester tester = new Tester ();
-			tester.run_tests ();
+			tester.RunTests ();
 		}
 	}
 
 	public class CardManager {
-		public static Dictionary<string, int> make_suite_dict () {
-			Dictionary<string, int> suite_dict = new Dictionary<string, int>();
-			suite_dict.Add ("heart", 1);
-			suite_dict.Add ("diamond", 2);
-			suite_dict.Add ("spade", 3);
-			suite_dict.Add ("club", 4);
-			return suite_dict;
+		public static Dictionary<string, int> MakeSuiteDict () {
+			Dictionary<string, int> suiteDict = new Dictionary<string, int>();
+			suiteDict.Add ("heart", 1);
+			suiteDict.Add ("diamond", 2);
+			suiteDict.Add ("spade", 3);
+			suiteDict.Add ("club", 4);
+			return suiteDict;
 		}
 
-		public static Dictionary<string, int> make_face_dict () {
-			Dictionary<string, int> face_dict = new Dictionary<string, int>();
-			face_dict.Add ("ace", 1);
-			face_dict.Add ("2", 2);
-			face_dict.Add ("3", 3);
-			face_dict.Add ("4", 4);
-			face_dict.Add ("5", 5);
-			face_dict.Add ("6", 6);
-			face_dict.Add ("7", 7);
-			face_dict.Add ("8", 8);
-			face_dict.Add ("9", 9);
-			face_dict.Add ("10", 10);
-			face_dict.Add ("Jack", 11);
-			face_dict.Add ("Queen", 12);
-			face_dict.Add ("King", 13);
-			return face_dict;
+		public static Dictionary<string, int> MakeFaceDict () {
+			Dictionary<string, int> faceDict = new Dictionary<string, int>();
+			faceDict.Add ("ace", 1);
+			faceDict.Add ("2", 2);
+			faceDict.Add ("3", 3);
+			faceDict.Add ("4", 4);
+			faceDict.Add ("5", 5);
+			faceDict.Add ("6", 6);
+			faceDict.Add ("7", 7);
+			faceDict.Add ("8", 8);
+			faceDict.Add ("9", 9);
+			faceDict.Add ("10", 10);
+			faceDict.Add ("Jack", 11);
+			faceDict.Add ("Queen", 12);
+			faceDict.Add ("King", 13);
+			return faceDict;
 		}
 
-		public static List<Card> make_deck (Dictionary<string,int> suite_dict, Dictionary<string, int> face_dict) {
+		public static List<Card> MakeDeck (Dictionary<string,int> suiteDict, Dictionary<string, int> faceDict) {
 			List<Card> list_of_cards = new List<Card> ();
-			foreach (KeyValuePair<string, int> suite in suite_dict) {
-				foreach (KeyValuePair<string, int> face in face_dict) {
+			foreach (KeyValuePair<string, int> suite in suiteDict) {
+				foreach (KeyValuePair<string, int> face in faceDict) {
 					list_of_cards.Add (new Card(suite.Key, face.Key));
 				}
 			}
 			return list_of_cards;
 		}
 
-		public static void display (List<Card> cards) {
+		public static void Display (List<Card> cards) {
 			foreach (Card card in cards) {
 				Console.WriteLine ("Card -- suite: " + card.suite + ", face: " + card.face);
 			}
 		}
 
-		public static List<Card> sort (List<Card> cards, Dictionary<string,int> suite_dict, Dictionary<string, int> face_dict) {
+		public static List<Card> Sort (List<Card> cards, Dictionary<string,int> suiteDict, Dictionary<string, int> faceDict) {
 			cards.Sort(delegate(Card x, Card y) {
-				return x.compare_to(y, suite_dict, face_dict);
+				return x.CompareTo(y, suiteDict, faceDict);
 			});
 			return cards;
 		}
 
-		public static List<Card> shuffle (List<Card> cards) {
-			return CardManager.shuffler (cards);
+		public static List<Card> Shuffle (List<Card> cards) {
+			return CardManager.Shuffler (cards);
 		}
 
-		static List<T> shuffler<T>(List<T> list) {  
+		static List<T> Shuffler<T>(List<T> list) {  
 			Random rng = new Random();  
 			int n = list.Count;  
 			while (n > 1) {  
@@ -111,25 +111,25 @@ namespace cards {
 		public string suite { get; set; }
 		public string face { get; set; }
 
-		public Card(string suite, string face) {
-			this.suite = suite;
-			this.face = face;
+		public Card(string pSuite, string pFace) {
+			suite = pSuite;
+			face = pFace;
 		}
 
-		public int compare_to(Card other_card, Dictionary<string,int> suite_dict, Dictionary<string, int> face_dict) {
-			int our_suite = suite_dict [this.suite];
-			int their_suite = suite_dict [other_card.suite];
-			int their_face = face_dict [this.face];
-			int our_face = face_dict [other_card.face];
+		public int CompareTo(Card otherCard, Dictionary<string,int> suiteDict, Dictionary<string, int> faceDict) {
+			int ourSuite = suiteDict [this.suite];
+			int theirSuite = suiteDict [otherCard.suite];
+			int theirFace = faceDict [this.face];
+			int ourFace = faceDict [otherCard.face];
 
-			if (their_suite > our_suite)
+			if (theirSuite > ourSuite)
 				return -1;
-			else if (their_suite < our_suite)
+			else if (theirSuite < ourSuite)
 				return 1;
 			else {
-				if (their_face > our_face)
+				if (theirFace > ourFace)
 					return 1;
-				else if (their_face < our_face)
+				else if (theirFace < ourFace)
 					return -1;
 				else
 					return 0;

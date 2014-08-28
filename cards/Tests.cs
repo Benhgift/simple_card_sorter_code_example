@@ -8,27 +8,27 @@
 using System;
 using System.Collections.Generic;
 
-namespace cards {
+namespace Cards {
 	public class Tester {
 		
-		Dictionary<string, int> suite_dict;
-		Dictionary<string, int> face_dict;
+		Dictionary<string, int> suiteDict;
+		Dictionary<string, int> faceDict;
 
 		public Tester () {
-			this.suite_dict = CardManager.make_suite_dict ();
-			this.face_dict = CardManager.make_face_dict ();
+			suiteDict = CardManager.MakeSuiteDict ();
+			faceDict = CardManager.MakeFaceDict ();
 		}
 
-		public void run_tests() {
+		public void RunTests() {
 			Console.WriteLine ("Running tests");
 			try{
-				List<Card> cards = this.test_make_deck ();
+				List<Card> cards = TestMakeDeck ();
 				if (cards == null)
 					throw new Exception();
-				cards = this.test_shuffle (cards);
+				cards = TestShuffle (cards);
 				if (cards == null)
 					throw new Exception();
-				cards = this.test_sort (cards);
+				cards = TestSort (cards);
 				if (cards == null)
 					throw new Exception();	
 				Console.WriteLine ("All tests succeeded");
@@ -39,36 +39,36 @@ namespace cards {
 			}
 		}
 		
-		public List<Card> test_make_deck() {
+		public List<Card> TestMakeDeck() {
 			try {
 				Console.WriteLine ("Testing deck creation");
-				Dictionary<string, int> suite_dict = CardManager.make_suite_dict ();
-				Dictionary<string, int> face_dict = CardManager.make_face_dict ();
-				List<Card> list_of_cards = CardManager.make_deck (suite_dict, face_dict);
-				if (list_of_cards.Count < 10)
+				Dictionary<string, int> suiteDict = CardManager.MakeSuiteDict ();
+				Dictionary<string, int> faceDict = CardManager.MakeFaceDict ();
+				List<Card> listOfCards = CardManager.MakeDeck (suiteDict, faceDict);
+				if (listOfCards.Count < 10)
 					throw new Exception();
-				return list_of_cards;
+				return listOfCards;
 			} catch {
 				Console.WriteLine ("Bad deck creation");
 				return null;
 			}
 		}
 
-		public List<Card> test_shuffle(List<Card> cards) {
+		public List<Card> TestShuffle(List<Card> cards) {
 			Console.WriteLine ("Testing deck shuffling");
 			try {
-				return CardManager.shuffle(cards);
+				return CardManager.Shuffle(cards);
 			} catch {
 				Console.WriteLine ("Bad deck shuffling");
 				return null;
 			}
 		}
 
-		public List<Card> test_sort(List<Card> cards) {
+		public List<Card> TestSort(List<Card> cards) {
 			try {
 				Console.WriteLine ("Testing deck sorting");
-				cards = CardManager.sort(cards, this.suite_dict, this.face_dict);
-				if (cards[0].compare_to(cards[10], this.suite_dict, this.face_dict) > 0)
+				cards = CardManager.Sort(cards, suiteDict, faceDict);
+				if (cards[0].CompareTo(cards[10], suiteDict, faceDict) > 0)
 					throw new Exception();
 				return cards;
 
